@@ -1,0 +1,57 @@
+<html>
+    <title>
+        Rank Calculator
+    </title>
+<script>
+function predict()
+{
+    var p = document.getElementById('perc');
+    if(p.percentile.value<0 || p.percentile.value>100)
+    {
+        alert("Incorrect percentile value.");
+    }
+    else
+    {
+    rank=parseInt((((100-(p.percentile.value))/100)*935741)+1);
+    alert("Your predicted JEE Mains CRL Rank is : "+rank);
+    }
+}
+</script>
+{% load staticfiles %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--bootstrap link-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <body style=" background: linear-gradient(20deg, #dc2430, #7f479b) !important;">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+                    <h6 style="color:chartreuse">CollegePredictor.com</h4>
+                    <ul class="navbar navbar-nav navbar-right">
+                        &nbsp;
+                      <li class="nav-item active" >
+                        <a class="nav-link" href="/">Home</a>
+                      </li>
+                      <li class="nav-item" >
+                        <a class="nav-link" href="/college_predictor/login/">Login</a>
+                      </li>
+                      <li class="nav-item" >
+                        <a class="nav-link" href="/college_predictor/register/">Register</a>
+                      </li>
+                      <li class="nav-item" >
+                          <a class="nav-link" href="/admin/">Admin</a>
+                      </li>
+                    
+                    </ul>
+                  </nav>
+            <div className="Head" style="text-align: center; padding-top:150px; color:white;font-size:30px;">
+                    <h1>Rank Calculator</h1>
+            </div>
+            <form name="rank" id="perc" style="text-align:center">
+            
+                    <h1 style="font-size:20px; color:whitesmoke; padding-top:100px;">Enter Your Percentile:</h1>
+                    <input type="number" placeholder="0.00" step="0.01" min="0" max="100"name="percentile" style="width:450px;height:50px;font-size:30px;text-align: center;"> 
+                    <br><br>
+                    <input type="submit" value="Calculate" onClick="return predict();" style="width:200px;height:50px;font-size:25px;background:green;color:honeydew;">
+            </form>
+    </body>
+</html>

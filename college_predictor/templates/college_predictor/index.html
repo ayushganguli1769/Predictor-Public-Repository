@@ -1,0 +1,409 @@
+<html>
+    <head>
+        <title>INDEX</title>
+    </head>
+    <!--Static files load-->
+    {% load staticfiles %}
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.9/css/mdb.min.css" rel="stylesheet">
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.9/js/mdb.min.js"></script>
+    <script type="text/javascript" src= " {% static 'college_predictor/js/index.js' %}">
+        
+    </script>
+    <style>
+        #fn1 {
+	background-color:white;
+	color:black;
+	padding:10px 15px;
+	border:none;
+}
+
+#fn1:hover{
+	background:red;
+	color:white;
+}
+    body {
+      background:black;
+      font-family: 'Inter UI', sans-serif;
+      color:white;
+    }
+    .page {
+      background: #e2e2e5;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 40px);
+      position: absolute;
+      place-content: center;
+      width: calc(100% - 40px);
+    }
+    .container {
+  display: flex;
+  height: 320px;
+  margin: 0 auto;
+  width: 640px;
+}
+h4
+{
+    color:rgb(157, 236, 30);
+}
+    </style>
+    <body>
+
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+                    <h6 style="color:chartreuse">CollegePredictor.com</h4>
+                    
+                            <h5> &nbsp;&nbsp; Hi, {{user.username}} </h5>
+                    
+                    
+            </nav>
+            <div className="page">
+  
+    <div className="container-fluid" style="background: black; text-align:center;padding:100px;">
+        
+        <div className="Head" style="padding:20px; color:white; font-family: Verdana; font-size: 40px">
+            <h1>College Predictor</h1>
+        </div>
+        <br>
+{% url 'college_predictor:input' as inp %}
+<!--delete later-->
+
+<!--delete later-->
+<form action="/college_predictor/index/input/" method="POST" >
+    {% csrf_token %}
+
+
+
+    {% if inp != request.path %}<!--part 1 comparision-->
+    <div id="part1" >      <!--part1-->      
+    <h4>Select your preferred branch :</h4>
+    <select className="btn-primary" title="choice1" name="choice1" id="choice1" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch1" id="branch1">
+    <br>
+    <select title="choice2" name="choice2" id="choice2" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch2" id="branch2">
+    <br>
+    <select title="choice3" name="choice3" id="choice3" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch3" id="branch3">
+    <br>
+    <select title="choice4" name="choice4" id="choice4" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch4" id="branch4">
+    <br>
+    <select title="choice5" name="choice5" id="choice5" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch5" id="branch5">
+    <br>
+    <select title="choice6" name="choice6" id="choice6" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch6" id="branch6">
+    <br>
+    <select title="choice7" name="choice7" id="choice7" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch7" id="branch7">
+    <br>
+    <select title="choice8" name="choice8" id="choice8" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch8" id="branch8">
+    <br>
+    <select title="choice9" name="choice9" id="choice9" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch9" id="branch9">
+    <br>
+    <select title="choice10" name="choice10" id="choice10" selected="selected" >
+        <option value="none">NONE</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="EE">EE</option>
+        <option value="ECE">ECE</option>
+        <option value="EEE">EEE</option>
+        <option value="Mech">Mech</option>
+        <option value="Chem">Chem</option>
+        <option value="Civil">Civil</option>
+        <option value="Meta">Meta</option>
+        <option value="Min">Min</option>
+        <option value="BioEn">BioEn</option>
+        <option value="other">other</option>
+
+
+    </select>
+    <input type="hidden" name="branch10" id="branch10">
+    <br><br>
+    <h4>State of Eligibility :</h4>
+    <!--Home State-->
+    <select name="hs" id="hs">
+        <option value="chhattisgarh">Chhattisgarh</option>
+        <option value="rajasthan">Rajasthan</option>
+        <option value="gujrat">Gujrat</option>
+        <option value="karnataka">Karnataka</option>
+        <option value="goa">Goa</option>
+        <option value="punjab">Punjab</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Kerla">Kerla</option>
+        <option value="Delhi">Delhi</option>
+        <option value="West Bengal">West Bengal</option>
+        <option value="Himachal Pradesh">Himachal Pradesh</option>
+        <option value="Meghalaya">Meghalaya</option>
+        <option value="Nagaland">Nagaland</option>
+        <option value="Bihar">Bihar</option>
+        <option value="Puducherry">Puducherry</option>
+        <option value="Sikkim">Sikkim</option>
+        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        <option value="Jharkhand">Jharkhand</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Manipur">Manipur</option>
+        <option value="Mizoram">Mizoram</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Assam">Assam</option>
+        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Uttarakhand">Uttarakhand</option>
+        <option value="Telangana">Telangana</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Andhra Pradesh">Andhra Pradesh</option>
+
+    </select>
+    <input type="hidden" id="home" name="home">
+    <br>
+    <br>
+    <!--End of Home State-->
+    <a href="#" onclick="fn1()" id="fn1" >NEXT</a>
+
+       </div> <!--end of part 1-->
+       {% endif %}<!--end of part 1 comparision-->
+       <div id="part2" style="display: none;"  >  <!--part2-->
+    <div id="output" >
+        <!--open-->
+        <br>
+        <label for="op_rank">JEE Main Open Rank</label>
+        <input type="text" id="op_rank" name="op_rank" value="0">
+        <br>
+        <label for="ad_op_rank">JEE Advanced Open Rank</label>
+        <input type="text" id="ad_op_rank" name="ad_op_rank" value="0">
+        <br>
+        <br>
+        <br>
+        <h4>Do you belong to any of these categories ?</h4>
+        <!--open end-->
+        <!--OBC Category-->
+        <label for="is_obc">OBC</label>
+        <input type="checkbox" name="is_obc" id="is_obc" >
+        <br>
+        <label for="obc_rank">JEE Main OBC Rank</label>
+        <input type="text" id="obc_rank" name="obc_rank" value="0">
+        <br>
+        <label for="ad_obc_rank">JEE Advanced OBC Rank</label>
+        <input type="text" id="ad_obc_rank" name="ad_obc_rank" value="0">
+        <br>
+        <!--OBC Category End-->
+        <!--SC Category-->
+        <label for="is_sc">SC</label>
+        <input type="checkbox" name="is_sc" id="is_sc" >
+        <br>
+        <label for="sc_rank">JEE Main SC Rank</label>
+        <input type="text" id="sc_rank" name="sc_rank" value="0">
+        <br>
+        <label for="ad_sc_rank">JEE Advanced SC Rank</label>
+        <input type="text" id="ad_sc_rank" name="ad_sc_rank" value="0">
+        <br>
+        <!--SC Category End-->
+        <!--ST Category-->
+        <label for="is_st">ST</label>
+        <input type="checkbox" name="is_st" id="is_st" >
+        <br>
+        <label for="st_rank">JEE Main ST Rank</label>
+        <input type="text" id="st_rank" name="st_rank" value="0">
+        <br>
+        <label for="ad_st_rank">JEE Advanced ST Rank</label>
+        <input type="text" id="ad_st_rank" name="ad_st_rank" value="0">
+        <br>
+        <!--ST Category End-->
+        <!--GEN_EWS-->
+        <label for="is_ews">EWS</label>
+        <input type="checkbox" name="is_ews" id="is_ews" >
+        <br>
+        <label for="ews_rank">JEE Main EWS Rank</label>
+        <input type="text" id="ews_rank" name="ews_rank" value="0">
+        <br>
+        <label for="ad_ews_rank">JEE Advanced EWS Rank</label>
+        <input type="text" id="ad_ews_rank" name="ad_ews_rank" value="0">
+        <br>
+        <!--GEN_EWS End-->
+        <!--Female-->
+        <label for="is_f">Female</label><!-- f:: female-->
+        <input type="checkbox" name="is_f" id="is_f" >
+        <!--Female End-->
+    </div>
+    <!--delete later-->
+
+      <!--delete later-->
+      <br>
+      <button name="inputting" onclick=" return fn();" >NEXT</button><!--fn validatesrank and category input-->
+        <br>
+    </div><!--end of part 2-->
+    {% if inp == request.path %}<!--part 3 comparision-->
+    <div id="part3" style="margin:100px;"  ><!--part 3-->
+        <p>We have sucessfully taken all your preferences into consideration.<br>Click on <strong>RESULT</strong> to get a list of probable colleges</p>  
+        <br>
+        <button name="result" onclick="return res();" >Result</button> <!--res is result-->
+    </div><!--end of part3-->
+    {% endif %}
+    <!--end of part 3 comparision-->
+</form>
+<!-------Redunt------->
+<!----------------------------------------------------->
+<!------Redunt code end-------->
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+    <title>
+        Home
+    </title>
+   
+ {% load staticfiles %}
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!--bootstrap link-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+ <!--end of bootstrap link-->
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+            <h6 style="color:chartreuse">CollegePredictor.com</h4>
+            <ul class="navbar navbar-nav navbar-right">
+              <li class="nav-item active" >
+                <a class="nav-link" href="#">Home</a>
+              </li>
+              <li class="nav-item" >
+                <a class="nav-link" href="/college_predictor/login/">Login</a>
+              </li>
+              <li class="nav-item" >
+                <a class="nav-link" href="/college_predictor/register/">Register</a>
+              </li>
+              <li class="nav-item" >
+                  <a class="nav-link" href="/admin/">Admin</a>
+              </li>
+            
+            </ul>
+          </nav>
+            
+                    <div className="container">
+                        <div class="row">
+                            <div class="col">
+                                <img className="hero" src=" {% static 'college_predictor/grad.png' %} " alt="hero" height="600" width="800" style="margin-top:50px;">
+                            </div>
+                            <div class="col">
+                              <div className="jumbotron" style="justify-content:center; margin-top:200px;margin-left:50px;">
+                                <h2>Welcome to <p style="color:rgb(119, 172, 13)">CollegePredictor.com</p></h2>
+                                
+                                    <a style="color:white;" href="/rank_predictor">
+                                      <button className="btn" style="padding:20px;width:300px;background:rgb(79, 91, 202);font-size:20px;color:white">
+                                      Rank Calculator
+                                      </button>
+                                    </a>
+                                
+                                <br><br>
+                                <a style="color:white;" href="/college_predictor/">
+                                <button className="btn btn-danger" style="padding:20px;width:300px;background:rgb(78, 108, 189);font-size:20px;color:white">
+                                    College Predictor
+                                </button>
+                              </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>          
+        </div>
+    </body>
+</html>
+
+
+
+
+

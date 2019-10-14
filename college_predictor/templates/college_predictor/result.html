@@ -1,0 +1,1481 @@
+<!--Unfortunately there's a big error here. If ad_op_rank < ad_op_cut , this condition gets executed and other conditions are left. So if ad_op_rank = 0, all conditions are left-->
+{% load staticfiles %}
+<link rel="stylesheet" type = "text/css"   href=" {% static 'college_predictor/resultstyle.css' %} ">
+<!--navbar-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Result</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">Main Home Page</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/rank_predictor">Rank Calculator</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">College Predictor<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/college_predictor"> <strong>Home</strong> </a></li>
+            <li><a href="/college_predictor/index/">Predict More</a></li>
+          </ul>
+        </li>
+        <li><a href="/admin/">Admin</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/college_predictor/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+
+<!--navbar end-->
+{% if all_college %} <!--1-->
+ <!--1.1. table begin was there-->
+  <!--1.2 tr begin was there-->
+
+ <!--2 was there--><!--2-->
+{% for p in pref_list %}<!--3-->
+{% if p != "none" %} <!--4-->
+<tr> <!--4.1-->
+
+    <!--CSE-->
+    <!--Start copying from here-->
+        {% if p == "CSE" %} <!--5-->
+        <table><!--5.1-->
+         <!--Table header-->
+         <tr>
+         <th>College Name</th>
+         <th>Course Alloted</th>
+         <th>Allotment Category</th>
+         <th>Closing Rank</th>
+         <th>NIRF Rank</th>
+       </tr><!--1.2-->
+        {% for college in all_college %}<!--2-->
+    {% if college.cse_set.all %}<!--6-->
+    <!--IIT CSE-->
+        {% for x in college.cse_set.all %}<!--7-->
+        <tr><!--7.1-->     
+        {% if college.is_IIT %}<!--8-->
+          {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+         <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+         {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+          {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_f %}<!--10--><!----------------------><!--9-->
+          {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% endif %}<!--11-->
+          {% endif %}<!--10--><!----------------------------><!--9-->
+
+          <!--IIT CSE End-->
+          <!--Home State CSE -->
+          {% elif college.home_state == hs %}<!--8-->
+           <!--Modify-->
+          {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+          <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+          {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_f %}<!--14--><!---------------------><!--13-->
+          {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% endif %}<!--15-->
+          {% endif %}<!--14--><!-------------------------><!--13-->
+
+           <!--Modify-->
+
+          <!--Home State CSE End-->
+          <!--Other State CSE -->
+
+          {% else %}<!--8-->
+
+          {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+          <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+          {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_f %}<!--17--><!-------><!--16-->
+          {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+          <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+          {% endif %}<!--18-->
+          {% endif %}<!--17--><!---------------------><!--16-->
+          <!--Other State CSE End -->
+
+
+        {% endif %}<!--8-->
+    <!-- CSE End-->
+             </tr>
+        {% endfor %}<!--7-->
+    {% endif %}<!--6-->
+    {% endfor %}<!--2-->
+  </table><!--5.1-->
+  <br>
+  <br>
+
+    <!--CSE End-->
+       <!--You'll have to copy till here. Use elif -->
+      <!--Code in Testing-->
+      <!--IT-->
+
+
+      {% elif p == "IT" %} <!--5-->
+      <table><!--5.1-->
+       <!--Table header-->
+       <tr>
+       <th>College Name</th>
+       <th>Course Alloted</th>
+       <th>Allotment Category</th>
+       <th>Closing Rank</th>
+       <th>NIRF Rank</th>
+     </tr><!--1.2-->
+      {% for college in all_college %}<!--2-->
+  {% if college.it_set.all %}<!--6-->
+  <!--IIT CSE-->
+      {% for x in college.it_set.all %}<!--7-->
+      <tr><!--7.1-->     
+        {% if college.is_IIT %}<!--8-->
+        {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+       <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+       {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+        {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_f %}<!--10--><!----------------------><!--9-->
+        {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% endif %}<!--11-->
+        {% endif %}<!--10--><!----------------------------><!--9-->
+
+        <!--IIT CSE End-->
+        <!--Home State CSE -->
+        {% elif college.home_state == hs %}<!--8-->
+         <!--Modify-->
+        {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+        <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+        {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_f %}<!--14--><!---------------------><!--13-->
+        {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% endif %}<!--15-->
+        {% endif %}<!--14--><!-------------------------><!--13-->
+
+         <!--Modify-->
+
+        <!--Home State CSE End-->
+        <!--Other State CSE -->
+
+        {% else %}<!--8-->
+
+        {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+        <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+        {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_f %}<!--17--><!-------><!--16-->
+        {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+        <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+        {% endif %}<!--18-->
+        {% endif %}<!--17--><!---------------------><!--16-->
+        <!--Other State CSE End -->
+
+
+      {% endif %}<!--8-->
+  <!-- CSE End-->
+
+           </tr>
+      {% endfor %}<!--7-->
+  {% endif %}<!--6-->
+  {% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+     
+            <!--IT end-->
+<!--EE-->
+
+{% elif p == "EE" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.ee_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.ee_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+<!--EE End-->
+
+<!--ECE-->
+
+{% elif p == "ECE" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.ece_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.ece_set.all %}<!--7-->
+<tr><!--7.1-->     
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+<!--ECE end-->
+
+<!--EEE-->
+
+{% elif p == "EEE" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.eee_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.eee_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+<!--EEE end-->
+<!--mech-->
+
+{% elif p == "Mech" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.mech_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.mech_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+<!--mech end-->
+<!--chem-->
+
+{% elif p == "Chem" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.chem_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.chem_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+<!--chem end-->
+
+<!--civil-->
+
+{% elif p == "Civil" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.civil_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.civil_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+
+<!--civil end-->
+<!--meta-->
+
+{% elif p == "Meta" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.meta_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.meta_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+
+<!--meta end-->
+
+<!--mining-->
+
+
+{% elif p == "Min" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.mining_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.mining_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+  
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+<!--mining end-->
+<!--Bio Engineering-->
+
+{% elif p == "BioEn" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.bioen_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.bioen_set.all %}<!--7-->
+<tr><!--7.1-->     
+
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+<!--Bio Engineering end-->
+
+<!--other-->
+
+{% elif p == "other" %} <!--5-->
+<table><!--5.1-->
+ <!--Table header-->
+ <tr>
+ <th>College Name</th>
+ <th>Course Alloted</th>
+ <th>Allotment Category</th>
+ <th>Closing Rank</th>
+ <th>NIRF Rank</th>
+</tr><!--1.2-->
+{% for college in all_college %}<!--2-->
+{% if college.other_set.all %}<!--6-->
+<!--IIT CSE-->
+{% for x in college.other_set.all %}<!--7-->
+<tr><!--7.1-->     
+  {% if college.is_IIT %}<!--8-->
+  {% if ad_op_rank <= x.ad_open_cut and ad_op_rank != 0 and ad_open_cut != 0 %}<!--9-->
+ <td> <a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td> <td> {{x.name}}</td> <td>OPEN</td><td> {{x.ad_open_cut}}</td><td>{{college.nirf_rank}}</td>
+ {% elif is_obc == True and ad_obc_rank <= x.ad_obc_cut and ad_obc_rank != 0 and ad_obc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a></td>  <td>{{x.name}} </td> <td>OBC</td><td> {{x.ad_obc_cut}} </td> <td>{{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_cut and ad_sc_rank != 0 and ad_sc_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC</td><td> {{x.ad_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_cut and ad_st_rank != 0 and ad_st_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST</td><td> {{x.ad_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_cut and ad_ews_rank != 0 and ad_ews_cut != 0 %}<!--9-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS</td><td> {{x.ad_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--10--><!----------------------><!--9-->
+  {% if ad_op_rank <= x.ad_open_f_cut and ad_op_rank != 0 and ad_open_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td> {{x.name}} </td><td>OPEN Female</td><td> {{x.ad_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and ad_obc_rank <= x.ad_obc_f_cut and ad_obc_rank != 0 and ad_obc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>OBC Female</td><td> {{x.ad_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and ad_sc_rank <= x.ad_sc_f_cut and ad_sc_rank != 0 and ad_sc_f_cut != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>SC Female</td><td> {{x.ad_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and ad_st_rank <= x.ad_st_f_cut and ad_st_rank != 0 and ad_st_f_cut != 0%}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Female</td><td> {{x.ad_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ad_ews_rank <= x.ad_ews_f_cut and x.ad_ews_f_cut != 0 and ad_ews_rank != 0 %}<!--11-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Female</td><td> {{x.ad_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--11-->
+  {% endif %}<!--10--><!----------------------------><!--9-->
+
+  <!--IIT CSE End-->
+  <!--Home State CSE -->
+  {% elif college.home_state == hs %}<!--8-->
+   <!--Modify-->
+  {% if op_rank <= x.hs_open_cut  and hs_open_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Homestate</td><td>{{x.hs_open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_cut  and hs_obc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate</td><td> {{x.hs_obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_cut and hs_sc_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate</td><td> {{x.hs_sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_cut and hs_st_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate</td><td> {{x.hs_st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_cut and hs_ews_cut != 0 %}<!--13-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>   <td>{{x.name}} </td><td>EWS Homestate</td><td> {{x.hs_ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--14--><!---------------------><!--13-->
+  {% if op_rank <= x.hs_open_f_cut and hs_open_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OPEN Homestate Female</td><td> {{x.hs_open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.hs_obc_f_cut and hs_obc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>OBC Homestate Female</td><td> {{x.hs_obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.hs_sc_f_cut and hs_sc_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>SC Homestate Female</td><td> {{x.hs_sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.hs_st_f_cut and hs_st_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>ST Homestate Female</td><td> {{x.hs_st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.hs_ews_f_cut and hs_ews_f_cut != 0 %}<!--15-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td>  <td> {{x.name}} </td><td>EWS Homestate Female</td><td> {{x.hs_ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--15-->
+  {% endif %}<!--14--><!-------------------------><!--13-->
+
+   <!--Modify-->
+
+  <!--Home State CSE End-->
+  <!--Other State CSE -->
+
+  {% else %}<!--8-->
+
+  {% if op_rank <= x.open_cut  and open_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">{{college.college_name}} </a></td><td>{{x.name}}</td><td>OPEN Other State</td><td>{{x.open_cut}}</td><td>{{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_cut and obc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State</td><td> {{x.obc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_cut and sc_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State</td><td> {{x.sc_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_cut and st_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State</td><td> {{x.st_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_cut and ews_cut != 0 %}<!--16-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State</td><td> {{x.ews_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_f %}<!--17--><!-------><!--16-->
+  {% if op_rank <= x.open_f_cut and open_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OPEN Other State Female</td><td> {{x.open_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_obc == True and obc_rank <= x.obc_f_cut and obc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>OBC Other State Female</td><td> {{x.obc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_sc == True and sc_rank <= x.sc_f_cut and sc_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>SC Other State Female</td><td> {{x.sc_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_st == True and st_rank <= x.st_f_cut and st_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>ST Other State Female</td><td> {{x.st_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% elif is_ews == True and ews_rank <= x.ews_f_cut and ews_f_cut != 0 %}<!--18-->
+  <td><a href="/college_predictor/detail/{{college.id}}">  {{college.college_name}} </a> </td><td> {{x.name}} </td><td>EWS Other State Female</td><td> {{x.ews_f_cut}}  </td> <td> {{college.nirf_rank}}</td>
+  {% endif %}<!--18-->
+  {% endif %}<!--17--><!---------------------><!--16-->
+  <!--Other State CSE End -->
+
+
+{% endif %}<!--8-->
+<!-- CSE End-->
+
+
+     </tr>
+{% endfor %}<!--7-->
+{% endif %}<!--6-->
+{% endfor %}<!--2-->
+</table><!--5.1-->
+<br>
+<br>
+
+
+
+<!--other end-->
+      <!--End of Test Code--> 
+{% endif %}<!--5-->
+<!--4.1 tr end was there-->
+{% endif %}<!--4-->
+{%endfor%}<!--3-->
+ <!--2 was there end for --><!--2-->
+<!--1.1 table was there end-->
+{% else %}<!--1-->
+<h3>No colleges there</h3>  
+{% endif %}<!--1-->
+<!--Change is_f condition from if to elif-->
